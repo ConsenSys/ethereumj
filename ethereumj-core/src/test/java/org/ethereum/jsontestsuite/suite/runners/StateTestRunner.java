@@ -21,7 +21,11 @@ import org.ethereum.config.SystemProperties;
 import org.ethereum.config.net.MainNetConfig;
 import org.ethereum.core.*;
 import org.ethereum.db.BlockStoreDummy;
+import org.ethereum.db.ContractDetails;
+import org.ethereum.db.RepositoryImpl;
+import org.ethereum.db.RepositoryRoot;
 import org.ethereum.jsontestsuite.suite.Env;
+import org.ethereum.jsontestsuite.suite.IterableTestRepository;
 import org.ethereum.jsontestsuite.suite.StateTestCase;
 import org.ethereum.jsontestsuite.suite.TestProgramInvokeFactory;
 import org.ethereum.jsontestsuite.suite.builder.BlockBuilder;
@@ -32,6 +36,8 @@ import org.ethereum.jsontestsuite.suite.builder.TransactionBuilder;
 import org.ethereum.jsontestsuite.suite.validators.LogsValidator;
 import org.ethereum.jsontestsuite.suite.validators.OutputValidator;
 import org.ethereum.jsontestsuite.suite.validators.RepositoryValidator;
+import org.ethereum.util.ByteUtil;
+import org.ethereum.vm.DataWord;
 import org.ethereum.vm.LogInfo;
 import org.ethereum.vm.program.ProgramResult;
 import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
@@ -39,8 +45,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
 
+import javax.xml.crypto.Data;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class StateTestRunner {
 
@@ -88,11 +98,35 @@ public class StateTestRunner {
         return executor.getResult();
     }
 
+    private static String dumpWorldState(Repository repository) {
+        StringBuilder builder = new StringBuilder();
+        Iterator<byte[]> keys = repository.getAccountsKeys().iterator();
+        for (byte[] address : repository.getAccountsKeys()) {
+            AccountState accountState = repository.getAccountState(address);
+            builder.append(ByteUtil.toHexString(address) + ":");
+            builder.append("\tNonce: " + repository.getNonce(address));
+            builder.append("\tBalance: " + repository.getBalance(address));
+            byte[] code = repository.getCode(address);
+            builder.append("\tCode: " + (code.length == 0 ? "0x" : ByteUtil.toHexString(code)));
+            builder.append("\tStorage:");
+            builder.append(repository.getClass().getName());
+            Map<DataWord, DataWord> accountStorage = repository.getContractDetails(address).getStorage();
+            for (Map.Entry<DataWord, DataWord> entry : accountStorage.entrySet()) {
+                builder.append("\t\t" + entry.getKey() + ": " + entry.getValue());
+            }
+        }
+        return builder.toString();
+    }
+
     public List<String> runImpl() {
 
         logger.info("");
         repository = RepositoryBuilder.build(stateTestCase.getPre());
         logger.info("loaded repository");
+
+        System.out.println("### BEGIN PRE-EXECUTION WORLD STATE DUMP ###");
+        System.out.println(dumpWorldState(repository));
+        System.out.println("### END PRE-EXECUTION WORLD STATE DUMP ###");
 
         transaction = TransactionBuilder.build(stateTestCase.getTransaction());
         logger.info("transaction: {}", transaction.toString());
@@ -111,6 +145,9 @@ public class StateTestRunner {
         ProgramResult programResult = executeTransaction(transaction);
 
         repository.commit();
+        System.out.println("### BEGIN POST-EXECUTION WORLD STATE DUMP ###");
+        System.out.println(dumpWorldState(repository));
+        System.out.println("### END POST-EXECUTION WORLD STATE DUMP ###");
 
         List<LogInfo> origLogs = programResult.getLogInfoList();
         List<String> logsResult = stateTestCase.getLogs().compareToReal(origLogs);

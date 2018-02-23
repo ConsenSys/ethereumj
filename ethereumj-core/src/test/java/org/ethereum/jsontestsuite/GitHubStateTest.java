@@ -53,46 +53,43 @@ public class GitHubStateTest {
         SystemProperties.getDefault().setRecordInternalTransactionsData(true);
     }
 
-    @Ignore
-    @Test // this method is mostly for hands-on convenient testing
-    // omit GeneralStateTestSuite initialization when use this method
-    // it reduces impact on GitHub API
+    @Test
     public void stSingleTest() throws IOException {
         GeneralStateTestSuite.runSingle(
-                "stPreCompiledContracts2/modexpRandomInput.json", commitSHA, GitHubJSONTestSuite.Network.Byzantium);
+                "stTransactionTest/TransactionToItself.json", commitSHA, GitHubJSONTestSuite.Network.Frontier);
     }
 
-    @Test
+    @Ignore
     public void stAttackTest() throws IOException {
         suite.runAll("stAttackTest");
     }
 
-    @Test
+    @Ignore
     public void stCallCodes() throws IOException {
         suite.runAll("stCallCodes");
     }
 
-    @Test
+    @Ignore
     public void stExample() throws IOException {
         suite.runAll("stExample");
     }
 
-    @Test
+    @Ignore
     public void stCallDelegateCodesCallCodeHomestead() throws IOException {
         suite.runAll("stCallDelegateCodesCallCodeHomestead");
     }
 
-    @Test
+    @Ignore
     public void stCallDelegateCodesHomestead() throws IOException {
         suite.runAll("stCallDelegateCodesHomestead");
     }
 
-    @Test
+    @Ignore
     public void stChangedEIP150() throws IOException {
         suite.runAll("stChangedEIP150");
     }
 
-    @Test
+    @Ignore
     public void stCallCreateCallCodeTest() throws IOException {
 
         Set<String> excluded = new HashSet<>();
@@ -101,57 +98,56 @@ public class GitHubStateTest {
         suite.runAll("stCallCreateCallCodeTest", excluded);
     }
 
-    @Test
+    @Ignore
     public void stDelegatecallTestHomestead() throws IOException {
         suite.runAll("stDelegatecallTestHomestead");
     }
 
-    @Test
+    @Ignore
     public void stEIP150Specific() throws IOException {
         suite.runAll("stEIP150Specific");
     }
 
-    @Test
+    @Ignore
     public void stEIP150singleCodeGasPrices() throws IOException {
         suite.runAll("stEIP150singleCodeGasPrices");
     }
 
-    @Test
+    @Ignore
     public void stEIP158Specific() throws IOException {
         suite.runAll("stEIP158Specific");
     }
 
-    @Test
+    @Ignore
     public void stHomesteadSpecific() throws IOException {
         suite.runAll("stHomesteadSpecific");
     }
 
-    @Test
+    @Ignore
     public void stInitCodeTest() throws IOException {
         suite.runAll("stInitCodeTest");
     }
 
-    @Test
+    @Ignore
     public void stLogTests() throws IOException {
         suite.runAll("stLogTests");
     }
 
-    @Test
+    @Ignore
     public void stMemExpandingEIP150Calls() throws IOException {
         suite.runAll("stMemExpandingEIP150Calls");
     }
 
-    @Test
+    @Ignore
     public void stPreCompiledContracts() throws IOException {
         suite.runAll("stPreCompiledContracts");
     }
 
-    @Test
+    @Ignore
     public void stPreCompiledContracts2() throws IOException {
         suite.runAll("stPreCompiledContracts2");
     }
 
-    @Test
     @Ignore
     public void stMemoryStressTest() throws IOException {
         Set<String> excluded = new HashSet<>();
@@ -161,64 +157,63 @@ public class GitHubStateTest {
         suite.runAll("stMemoryStressTest", excluded);
     }
 
-    @Test
     @Ignore
     public void stMemoryTest() throws IOException {
         suite.runAll("stMemoryTest");
     }
 
-    @Test
+    @Ignore
     public void stQuadraticComplexityTest() throws IOException {
         // leaving only Homestead version since the test runs too long
         suite.runAll("stQuadraticComplexityTest", GitHubJSONTestSuite.Network.Homestead);
     }
 
-    @Test
+    @Ignore
     public void stSolidityTest() throws IOException {
         suite.runAll("stSolidityTest");
     }
 
-    @Test
+    @Ignore
     public void stRecursiveCreate() throws IOException {
         suite.runAll("stRecursiveCreate");
     }
 
-    @Test
+    @Ignore
     public void stRefundTest() throws IOException {
         suite.runAll("stRefundTest");
     }
 
-    @Test
+    @Ignore
     public void stReturnDataTest() throws IOException {
         suite.runAll("stReturnDataTest");
     }
 
-    @Test
+    @Ignore
     public void stRevertTest() throws IOException {
         suite.runAll("stRevertTest");
     }
 
-    @Test
+    @Ignore
     public void stSpecialTest() throws IOException {
         suite.runAll("stSpecialTest");
     }
 
-    @Test
+    @Ignore
     public void stStackTests() throws IOException {
         suite.runAll("stStackTests");
     }
 
-    @Test
+    @Ignore
     public void stStaticCall() throws IOException {
         suite.runAll("stStaticCall");
     }
 
-    @Test
+    @Ignore
     public void stSystemOperationsTest() throws IOException {
         suite.runAll("stSystemOperationsTest");
     }
 
-    @Test
+    @Ignore
     public void stTransactionTest() throws IOException {
         // TODO enable when zero sig Txes comes in
         suite.runAll("stTransactionTest", new HashSet<>(Arrays.asList(
@@ -237,67 +232,67 @@ public class GitHubStateTest {
         )));
     }
 
-    @Test
+    @Ignore
     public void stTransitionTest() throws IOException {
         suite.runAll("stTransitionTest");
     }
 
-    @Test
+    @Ignore
     public void stWalletTest() throws IOException {
         suite.runAll("stWalletTest");
     }
 
-    @Test
+    @Ignore
     public void stZeroCallsRevert() throws IOException {
         suite.runAll("stZeroCallsRevert");
     }
 
-    @Test
+    @Ignore
     public void stCreateTest() throws IOException {
         suite.runAll("stCreateTest");
     }
 
-    @Test
+    @Ignore
     public void stZeroCallsTest() throws IOException {
         suite.runAll("stZeroCallsTest");
     }
 
-    @Test
+    @Ignore
     public void stZeroKnowledge() throws IOException {
         suite.runAll("stZeroKnowledge");
     }
 
-    @Test
+    @Ignore
     public void stZeroKnowledge2() throws IOException {
         suite.runAll("stZeroKnowledge2");
     }
 
-    @Test
+    @Ignore
     public void stCodeSizeLimit() throws IOException {
         suite.runAll("stCodeSizeLimit");
     }
 
-    @Test
+    @Ignore
     public void stRandom() throws IOException {
         suite.runAll("stRandom");
     }
 
-    @Test
+    @Ignore
     public void stRandom2() throws IOException {
         suite.runAll("stRandom2");
     }
 
-    @Test
+    @Ignore
     public void stBadOpcode() throws IOException {
         suite.runAll("stBadOpcode");
     }
 
-    @Test
+    @Ignore
     public void stNonZeroCallsTest() throws IOException {
         suite.runAll("stNonZeroCallsTest");
     }
 
-    @Test
+    @Ignore
     public void stCodeCopyTest() throws IOException {
         suite.runAll("stCodeCopyTest");
     }
